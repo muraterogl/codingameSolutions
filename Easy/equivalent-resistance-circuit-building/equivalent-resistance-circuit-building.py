@@ -1,8 +1,3 @@
-import sys
-import math
-import re
-
-
 n = int(input())
 r = {}
 
@@ -21,25 +16,19 @@ def findElements(resString):
 
     for character in resString:
 
-        if character == " ":
-            #If paranthesis' are matched append to elements
-            if len(paranthesis) == 0:
-                elements.append(hold)
-                hold = ""
+        hold += character
 
-            else:
-                hold += character
+        if character == " ":
+            #If paranthesis' are matched, append hold without last space to elements
+            if len(paranthesis) == 0:
+                elements.append(hold.rstrip())
+                hold = ""        
 
         elif character == "(" or character == "[":
             paranthesis.append(character)
-            hold += character
 
         elif character == ")" or character == "]":
-            paranthesis.pop(-1)
-            hold += character
-
-        else:
-            hold += character
+            paranthesis.pop(-1)        
 
     if hold != "":
         elements.append(hold)
@@ -52,7 +41,6 @@ def findRes(s):
     else:
         #elements = re.findall(r"\[.*\]|\(.*\)|\w+",s[2:-2])
         elements = findElements(s[2:-2])
-
         #Series
         if s[0] == "(":
             return sum([findRes(element) for element in elements])
